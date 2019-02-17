@@ -7,6 +7,7 @@ import com.demo.dataobject.Course;
 import com.demo.dataobject.NextStuCourse;
 import com.demo.repository.CourseRepository;
 import com.demo.repository.NextStuCourseRepository;
+import com.demo.service.impl.NextStuCourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,9 @@ public class NextCourseController {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    NextStuCourseServiceImpl nextStuCourseService;
 
     @CrossOrigin
     @ResponseBody
@@ -43,7 +47,21 @@ public class NextCourseController {
     public ResultVO delCourse(@RequestBody StuCourseVO stuCourseVO) {
         String sno = stuCourseVO.getSno();
         String cno = stuCourseVO.getCno();
-        return null;
+        ResultVO resultVO = new ResultVO();
+        try {
+            nextStuCourseService.delOne(sno, cno);
+        } catch (Exception e) {
+            resultVO.setCno(cno);
+            resultVO.setCode(500);
+            resultVO.setMsg("删除失败");
+            resultVO.setCourse(courseRepository.getOne(cno));
+            return resultVO;
+        }
+        resultVO.setCourse(courseRepository.getOne(cno));
+        resultVO.setMsg("删除成功");
+        resultVO.setCode(200);
+        resultVO.setCno(cno);
+        return resultVO;
     }
 
 

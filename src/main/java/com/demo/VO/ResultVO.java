@@ -13,6 +13,7 @@ public class ResultVO {
 
     private Integer code;
 
+    @JsonProperty("msg")
     private String msg;
 
     @JsonProperty("course")

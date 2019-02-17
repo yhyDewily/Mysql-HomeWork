@@ -12,6 +12,7 @@ public interface NextStuCourseRepository extends JpaRepository<NextStuCourse, Sn
 
     List<NextStuCourse> findBySno (String sno);
 
-    @Transactional
-    void removeBySnoAndCno (String sno, String cno);
+    NextStuCourse findBySnoAndCno(String sno, String cno);
+
+//    void deleteBySnoAndCno (String sno, String cno);
 }

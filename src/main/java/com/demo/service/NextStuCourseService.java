@@ -1,12 +1,13 @@
 package com.demo.service;
 
-import com.demo.dataobject.Course;
 import com.demo.dataobject.NextStuCourse;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface NextStuCourseService {
 
     //查询课程
-    Course findOne(String cno);
+    NextStuCourse findOne(String sno, String cno);
 
     //添加课程
     void addOne(String sno, String cno);
