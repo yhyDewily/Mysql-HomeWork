@@ -32,10 +32,18 @@ public class NextCourseController {
     @PostMapping(value = "/api/next/course", produces = "application/json; charset=UTF-8")
     public List<Course> getNextCourses(@RequestBody Map<String, String> sno) {
         String s = sno.get("sno");
-        List<NextStuCourse> nextStuCourses = nextStuCourseRepository.findBySno(s);
+        List<NextStuCourse> nextStuCourses = new ArrayList<>();
+        try {
+            nextStuCourses = nextStuCourseRepository.findBySno(s);
+        } catch (Exception e){
+            return null;
+        }
         List<String> list = new ArrayList<>();
         for (int i = 0; i< nextStuCourses.size();i++) {
             list.add(nextStuCourses.get(i).getCno());
+        }
+        if(list.size() == 0 ){
+            return null;
         }
         List<Course> courses = courseRepository.findByCnoIn(list);
         return courses;

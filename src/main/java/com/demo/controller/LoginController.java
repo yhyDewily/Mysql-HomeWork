@@ -21,11 +21,16 @@ public class LoginController {
     public Student login(@Valid@RequestBody LoginInfoVO loginInfoVO, BindingResult bindingResult) {
         String sno = loginInfoVO.getSno();
         String pswd = loginInfoVO.getPswd();
-        if(bindingResult.hasErrors()
-            || repository.getOne(sno) == null) return null;
+        if(sno == null) sno = "";
+        try {
+            repository.getOne(sno);
+        } catch (Exception e) {
+            return null;
+        }
+        if(bindingResult.hasErrors()) return null;
 
         Student student = repository.getOne(sno);
-        if (pswd != student.getPswd()) return null;
+        if (!pswd.equals(student.getPswd())) return null;
 
         return student;
     }

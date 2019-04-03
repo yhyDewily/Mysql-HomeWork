@@ -53,10 +53,25 @@ public class CourseController {
         if (cno == null) cno = "";
         if (cname == null) cname ="";
         if(!cno.equals("") && !cname.equals("")){
+            try {
+                courseRepository.findByCnoAndCname(cno, cname);
+            } catch (Exception e){
+                return null;
+            }
             return courseRepository.findByCnoAndCname(cno, cname);
         } else if (!cno.equals("") && cname.equals("")) {
+            try {
+                courseRepository.getOne(cno);
+            } catch (Exception e){
+                return null;
+            }
             return courseRepository.getOne(cno);
         } else if (cno.equals("")  && !cname.equals("")) {
+            try {
+                courseRepository.findByCname(cname);
+            } catch (Exception e){
+                return null;
+            }
             return courseRepository.findByCname(cname);
         } else {
             return null;
@@ -104,6 +119,7 @@ public class CourseController {
         for( StudentsCourse course : courseList) {
             cnoList.add(course.getCno());
         }
+        if(cnoList.size() == 0) return null;
         List<Course> courses = courseRepository.findByCnoIn(cnoList);
         return courses;
     }
@@ -118,6 +134,8 @@ public class CourseController {
         for (NextStuCourse course : nextStuCourses) {
             cnoList.add(course.getCno());
         }
+        if(cnoList.size() == 0)
+            return courseRepository.findAll();
         List<Course> courses = courseRepository.findByCnoNotIn(cnoList);
         return courses;
     }

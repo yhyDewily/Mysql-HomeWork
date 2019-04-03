@@ -38,6 +38,8 @@ public class GradesController {
             cnoList.add(course.getCno());
         }
         //获取所选课程的详细信息
+        if(cnoList.size() == 0)
+            return null;
         List<Course> courses = courseRepository.findByCnoIn(cnoList);
         List<GradesVO> grades = new ArrayList<>();
         for(int i = 0; i < courses.size(); i++) {
